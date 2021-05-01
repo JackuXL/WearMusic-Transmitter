@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="WearMusic 音乐传输" Height="394.694" Width="663.627" Icon="ic_launcher_round.png">
+    <materialDesign:DialogHost
+        Identifier="RootDialog"
+        DialogTheme="Inherit"
+        SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        <Grid>
+            <TextBlock HorizontalAlignment="Left" Margin="32,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="115" FontSize="16"><Run Text="当前设备："/><LineBreak/><Run/></TextBlock>
+            <ComboBox x:Name="cmb_devices" HorizontalAlignment="Left" Margin="152,47,0,0" VerticalAlignment="Top" Width="146" Height="30" FontSize="14"/>
+            <TextBox x:Name="tb_path" HorizontalAlignment="Left" Height="32" Margin="32,116,0,0" TextWrapping="Wrap" materialDesign:HintAssist.Hint="路径..."  VerticalAlignment="Top" Width="434" FontSize="16" CaretBrush="#FF2175F3"/>
+            <RadioButton x:Name="rb_mp3" Content="音频（*.mp3）" HorizontalAlignment="Left" Margin="32,185,0,0" VerticalAlignment="Top" IsChecked="True" Height="26" Width="130"/>
+            <RadioButton x:Name="rb_lrc" Content="歌词（*.lrc）" HorizontalAlignment="Left" Margin="195,185,0,0" VerticalAlignment="Top" Height="26" Width="113"/>
+            <RadioButton x:Name="rb_jpg" Content="封面（*.jpg）" HorizontalAlignment="Left" Margin="347,185,0,0" VerticalAlignment="Top" Height="26" Width="119"/>
+            <Button x:Name="btn_push" Content="推送" HorizontalAlignment="Left" Margin="522,283,0,0" VerticalAlignment="Top" Width="94" Height="40" Click="btn_push_Click"/>
+            <Button x:Name="btn_choose" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" HorizontalAlignment="Left" ToolTip="MaterialDesignFloatingActionMiniButton" Margin="535,116,0,156" Height="70" Width="70" RenderTransformOrigin="0.961,-0.088" Click="btn_choose_Click">
+                <materialDesign:PackIcon Kind="FileEditOutline" Height="30" Width="30" />
+            </Button>
+            <TextBlock HorizontalAlignment="Left" Margin="32,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="21" Width="247" Text="Tip：音频、歌词、封面名称相同才能匹配哦" Foreground="#FF707070"/>
+            <materialDesign:Snackbar
+                        x:Name="MainSnackbar"
+                        MessageQueue="{materialDesign:MessageQueue}" />
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>
