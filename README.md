@@ -1,6 +1,6 @@
 # WearMusic-Transmitter
 
-WearMusic 音乐传输工具。
+WearMusic 音乐传输工具 PC端。
 
 使用 MaterialDesignInXAML，如需在本项目的基础上开发，请使用 Nuget 安装 MaterialDesignThemes 和 MaterialDesignColors。
 
