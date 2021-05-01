@@ -83,6 +83,7 @@ namespace WpfApp1
             p.StartInfo.RedirectStandardError = true;//重定向标准错误输出
             p.StartInfo.CreateNoWindow = true;//不显示程序窗口
             p.Start();//启动程序
+            p.StandardInput.WriteLine("cd platform-tools");
             p.StandardInput.WriteLine(command + "&exit");
             p.StandardInput.AutoFlush = true;
 
