@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Threading;
 
-namespace WpfApp1
+namespace WearMusicTransmitter
 {
     public partial class MainWindow : Window
     {
@@ -83,7 +83,7 @@ namespace WpfApp1
             p.StartInfo.RedirectStandardError = true;//重定向标准错误输出
             p.StartInfo.CreateNoWindow = true;//不显示程序窗口
             p.Start();//启动程序
-            p.StandardInput.WriteLine("cd platform-tools");
+            p.StandardInput.WriteLine("cd adb");
             p.StandardInput.WriteLine(command + "&exit");
             p.StandardInput.AutoFlush = true;
 
@@ -100,9 +100,9 @@ namespace WpfApp1
         {
             // 选择文件
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            if((bool)rb_mp3.IsChecked) dialog.Filters.Add(new CommonFileDialogFilter("音频文件", "*.mp3"));
+            if((bool)rb_mp3.IsChecked) dialog.Filters.Add(new CommonFileDialogFilter("音频文件", "*.mp3,*.wav,*.flac,*.aac"));
             else if((bool)rb_lrc.IsChecked) dialog.Filters.Add(new CommonFileDialogFilter("歌词文件", "*.lrc"));
-            else if((bool)rb_jpg.IsChecked) dialog.Filters.Add(new CommonFileDialogFilter("封面文件", "*.jpg"));
+            else if((bool)rb_jpg.IsChecked) dialog.Filters.Add(new CommonFileDialogFilter("封面文件", "*.jpg,*.png"));
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 tb_path.Text = dialog.FileName;
@@ -122,8 +122,6 @@ namespace WpfApp1
             {
                 Task.Factory.StartNew(() => Thread.Sleep(0)).ContinueWith(t =>
                 {
-                    //note you can use the message queue from any thread, but just for the demo here we 
-                    //need to get the message queue from the snackbar, so need to be on the dispatcher
                     MainSnackbar.MessageQueue?.Enqueue("无设备");
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 
@@ -132,8 +130,6 @@ namespace WpfApp1
             {
                 Task.Factory.StartNew(() => Thread.Sleep(0)).ContinueWith(t =>
                 {
-                    //note you can use the message queue from any thread, but just for the demo here we 
-                    //need to get the message queue from the snackbar, so need to be on the dispatcher
                     MainSnackbar.MessageQueue?.Enqueue("文件不存在");
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -141,8 +137,6 @@ namespace WpfApp1
             {
                 Task.Factory.StartNew(() => Thread.Sleep(0)).ContinueWith(t =>
                 {
-                    //note you can use the message queue from any thread, but just for the demo here we 
-                    //need to get the message queue from the snackbar, so need to be on the dispatcher
                     MainSnackbar.MessageQueue?.Enqueue("后缀名不匹配");
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -152,13 +146,13 @@ namespace WpfApp1
                 switch (type)
                 {
                     case 0:
-                        RunCmd("adb -s " + cmb_devices.SelectedValue + " push " + tb_path.Text + " /storage/emulated/0/Android/data/cn.wearbbs.music/download/music/");
+                        RunCmd("adb -s " + cmb_devices.SelectedValue + " push " + tb_path.Text + " /storage/emulated/0/Android/data/cn.wearbbs.music/files/download/music/");
                         break;
                     case 1:
-                        RunCmd("adb -s " + cmb_devices.SelectedValue + " push " + tb_path.Text + " /storage/emulated/0/Android/data/cn.wearbbs.music/download/lrc/");
+                        RunCmd("adb -s " + cmb_devices.SelectedValue + " push " + tb_path.Text + " /storage/emulated/0/Android/data/cn.wearbbs.music/files/download/lrc/");
                         break;
                     case 2:
-                        RunCmd("adb -s " + cmb_devices.SelectedValue + " push " + tb_path.Text + " /storage/emulated/0/Android/data/cn.wearbbs.music/download/cover/");
+                        RunCmd("adb -s " + cmb_devices.SelectedValue + " push " + tb_path.Text + " /storage/emulated/0/Android/data/cn.wearbbs.music/files/download/cover/");
                         break;
                     default:
                         Task.Factory.StartNew(() => Thread.Sleep(0)).ContinueWith(t =>
